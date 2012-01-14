@@ -24,6 +24,7 @@ object API extends RestHelper with Loggable {
      	  
     case req @ Req("api" :: "v1" :: email :: Nil, suffix, PostRequest) =>
       val address = "%s.%s" format (email,suffix)
+      println(req.json)
       update(address, req.json).map(jsonPerson)
   
     case req @ Req("api" :: "v1" :: email :: Nil, suffix, PutRequest) =>
@@ -32,10 +33,14 @@ object API extends RestHelper with Loggable {
     
       
     case "api" :: "v1" :: "login" :: assertion :: Nil JsonGet _ => 
-      for ( email <- BrowserId.verify(assertion) ) {
+      val person = for { email <- BrowserId.verify(assertion)
+    		  			person <- Status.people.find(_.email == email) } yield {
         logger.info("Login from "+email)
+        person
       }
-      OkResponse()
+      
+      person.map(jsonPerson)
+      
     
   }
     
