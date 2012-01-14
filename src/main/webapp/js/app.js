@@ -7,7 +7,7 @@
 	    	console.log(assertion);
 	    	
 	    	 $.ajax({
-	    	      "url": "/api/verify/"+assertion, 
+	    	      "url": "/api/v1/login/"+assertion, 
 	    	      "type": "GET",
 	    	      "contentType": "application/json; charset=utf-8",
 	    	      "processData": false,
