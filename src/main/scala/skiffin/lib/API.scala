@@ -7,7 +7,6 @@ import net.liftweb.common._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 
-
 object API extends RestHelper with Loggable {
 
   def jsonPerson(p: Person): JObject = ("email" -> p.email) ~
@@ -26,6 +25,11 @@ object API extends RestHelper with Loggable {
     case req @ Req("api" :: "v1" :: email :: Nil, suffix, PostRequest) =>
       val address = "%s.%s" format (email,suffix)
       update(address, req.json).map(jsonPerson)
+  
+    case req @ Req("api" :: "v1" :: email :: Nil, suffix, PutRequest) =>
+      val address = "%s.%s" format (email,suffix)
+      insert(address, req.json).map(jsonPerson)
+    
       
     case "api" :: "v1" :: "login" :: assertion :: Nil JsonGet _ => 
       for ( email <- BrowserId.verify(assertion) ) {
@@ -34,8 +38,7 @@ object API extends RestHelper with Loggable {
       OkResponse()
     
   }
-  
-  
+    
   def update(address: String, jsonreq: Box[JValue]): Option[Person] = for { 
 	  p <- Status.people.find(_.email == address) 
       json <- jsonreq    
@@ -45,4 +48,15 @@ object API extends RestHelper with Loggable {
     	  Status ! np
     	  np
     }  
+      
+  def insert(address: String, jsonreq: Box[JValue]): Option[Person] = for { 
+      json <- jsonreq    
+      JBool(status) = (json \ "in")
+      } yield {
+    	  val np = Person(email=address, in=status, when=new java.util.Date)
+    	  Status ! np
+    	  np
+    }  
+    
+      
 }

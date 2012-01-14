@@ -14,9 +14,11 @@ Then http://127.0.0.1:8080/
 If you're hacking, 
 
 
-## API
+## API v1
 
-### List of everyone (in or otherwise)
+All urls prefixed with /api/v1
+
+### Get a list of everyone
 
     curl -v -X GET -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/people
 
@@ -33,17 +35,24 @@ Returns:
     }
 
 
-## A specific person
+## Get a specific person
 
     curl -v -X GET -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/richard@dallaway.com
 
 Returns the person representation shown above.
 
-## Change status
+## Post a status change
 
     curl -v -X POST -d '{ "in" : true }' -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/richard@dallaway.com
 
 Returns the person representation or a 404 if the person is not known
+
+
+## Put a new person
+
+    curl -v -X PUT -d '{ "in":false }' -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/you@example.com
+
+Returns the person representation
 
 
 
