@@ -103,5 +103,6 @@ $(document).ready(function() {
 		     recordState(value);
 		    }
 		});
+	$("#person").hide();
 });
 
