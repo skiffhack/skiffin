@@ -38,6 +38,8 @@ class Boot {
     // where to search snippet
     LiftRules.addToPackages("skiffin")
 
+    LiftRules.dispatch.prepend(skiffin.lib.API)
+    
     // Build SiteMap
     def sitemap = SiteMap(
       Menu.i("Home") / "index" )

@@ -11,7 +11,7 @@ seq(com.github.siasia.WebPlugin.webSettings :_*)
 resolvers += "Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
 
 libraryDependencies ++= {
-  val liftVersion = "2.4" 
+  val liftVersion = "2.4-RC1" 
   Seq(
     "net.liftweb" %% "lift-webkit" % liftVersion % "compile->default",
     "net.liftweb" %% "lift-mapper" % liftVersion % "compile->default",
@@ -26,6 +26,7 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.8" % "test->default", // For JUnit 4 testing
   "javax.servlet" % "servlet-api" % "2.5" % "provided->default",
   "net.databinder" %% "dispatch-http" % "0.8.7",
+  //"net.databinder" %% "dispatch-lift-json" % "0.8.7",
   "com.h2database" % "h2" % "1.2.138", // In-process database, useful for development systems
   "ch.qos.logback" % "logback-classic" % "0.9.26" % "compile->default" // Logging
 )
