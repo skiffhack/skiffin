@@ -2,6 +2,17 @@
 
 Provides who's in and who's out information for The Skiff.
 
+## TODO
+
+* Add persistence backend (it's all in memory for now)
+* Deploy to Heuroku
+* Add a UI
+* Think about security
+* Wire up to 4sq?
+* Wire up to RFID and put reading in the door
+* Add location (WERKS or SKIFF)
+
+
 ## Running
 
 This is a Lift web app.  
@@ -9,7 +20,7 @@ This is a Lift web app.
     $ ./sbt
     sbt> container:start
 
-Then ``http://127.0.0.1:8080/`
+Then `http://127.0.0.1:8080/`
 
 
 ## API v1
