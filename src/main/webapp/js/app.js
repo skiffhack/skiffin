@@ -35,7 +35,7 @@ $(function() {
 		$("#email").html(person.email);
 		$("#person").show();
 		control.data("email", person.email);
-		control.checked = person.in;
+		control.attr("checked", person.in).iphoneStyle("refresh");
 	}
 	
 });
@@ -45,10 +45,14 @@ function formatStatus(p) {
 	return p.in ? "in" : "out";
 }
 
+function checkbox(value) {
+	return "<input disabled='disabled' type='checkbox' "+ (value ? "checked=checked" : "") +"></input>";
+}
+
 function formatPerson(p) {
 	return "<li class='person'>" +
 				"<span class='email'>"+p.email+"</span>" +
-				"<span class='status' data-status-in='"+formatStatus(p)+"'>"+p.in+"</span>" +
+				"<span class='status' data-status-in='"+formatStatus(p)+"'>"+checkbox(p.in)+"</span>" +
 			"</li>";
 }
 
@@ -66,6 +70,12 @@ function everyone() {
 	        	return formatPerson(p);
 	        });
 	        $('#people').html("<ul>"+lis.join("")+"</ul>");
+	        
+	        $('#people :checkbox').iphoneStyle({
+	  		  checkedLabel: 'IN',
+	  		  uncheckedLabel: 'OUT'
+	  		});
+	        
 	      }
 	    }); 
 }
