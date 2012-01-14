@@ -6,3 +6,4 @@ target
 .classpath
 .cache
 lift_proto.db.lock.db
+.settings/

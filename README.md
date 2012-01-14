@@ -16,12 +16,34 @@ If you're hacking,
 
 ## API
 
-curl -v -X GET -d '{}' -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/people
+### List of everyone (in or otherwise)
+
+    curl -v -X GET -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/people
+
+Returns:
+
+    {
+      "count":2,
+      "people":
+      [ { "email":"richard@dallaway.com",
+          "in":true,
+          "when":1326562010157}, 
+        { … }
+      ]
+    }
 
 
-curl -v -X GET -d '{}' -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/richard@dallaway.com
+## A specific person
 
-curl -v -X POST -d '{ "in" : "true" }' -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/richard@dallaway.com
+    curl -v -X GET -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/richard@dallaway.com
+
+Returns the person representation shown above.
+
+## Change status
+
+    curl -v -X POST -d '{ "in" : true }' -H 'Content-type: text/json' http://127.0.0.1:8080/api/v1/richard@dallaway.com
+
+Returns the person representation or a 404 if the person is not known
 
 
 

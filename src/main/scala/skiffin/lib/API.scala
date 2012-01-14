@@ -19,7 +19,6 @@ object API extends RestHelper with Loggable {
        ("count" -> Status.people.size) ~
        ("people" -> Status.people.map(jsonPerson) ) : JObject
 
-
     case Req("api" :: "v1" :: email :: Nil, suffix, GetRequest) =>
       val address = "%s.%s" format (email,suffix) // doh!
       Status.people.find(_.email == address).map(jsonPerson)
@@ -40,9 +39,9 @@ object API extends RestHelper with Loggable {
   def update(address: String, jsonreq: Box[JValue]): Option[Person] = for { 
 	  p <- Status.people.find(_.email == address) 
       json <- jsonreq    
-      //JBool(status) <- json \ "in" 
+      JBool(status) = (json \ "in")
       } yield {
-    	  val np = p.copy(in=true,when=new java.util.Date)
+    	  val np = p.copy(in=status,when=new java.util.Date)
     	  Status ! np
     	  np
     }  

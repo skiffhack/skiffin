@@ -19,8 +19,8 @@ object Status extends LiftActor {
  
   override def messageHandler = {
     case p: Person =>
-      people = p :: people
-  }
+      people = p :: people.filterNot(_.email == p.email) 
+    }
   
   
    
