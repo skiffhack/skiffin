@@ -7,6 +7,8 @@ Provides who's in and who's out information for The Skiff.
 * Add persistence backend (it's all in memory for now)
 * Deploy to Heuroku
 * Add a UI
+   * needs style, name, etc
+   * change live updating code to send updates via JS to let the browser do all the rendering.
 * Think about security - the end points are open to all
 * Wire up to 4sq?
 * Wire up to RFID and put reading in the door

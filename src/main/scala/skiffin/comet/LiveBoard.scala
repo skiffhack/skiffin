@@ -7,7 +7,6 @@ import net.liftweb.http._
 import net.liftweb.http.js.JsCmds._
 import net.liftweb._
 import scala.xml._
-
 import skiffin.lib._
 
 /**
@@ -37,15 +36,10 @@ class LiveBoard extends CometActor with CometListener {
     case x => println("LiveBoard Unexpected msg "+x)  
   }
   
-  def render = {
-   println("Render "+people)
-   println("Rendering "+people.map(button))
-    
-  "li *" #> people.map( p => 
+  def render = "li *" #> people.map( p => 
     	".list-email" #> p.email & 
     	".list-status" #> button(p)
-		  ) & ClearClearable
-  }
+		  ) &  ClearClearable
   
   private def button(p: Person) = p.in match {
     case false => <input disabled="disabled" type="checkbox"></input>
