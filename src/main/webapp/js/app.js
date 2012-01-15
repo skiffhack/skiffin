@@ -81,7 +81,7 @@ function everyone() {
 }
 
 
-everyone();
+//everyone();
 
 // iOS-style Checkboxes -----------------------------------------------
 

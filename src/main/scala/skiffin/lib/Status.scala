@@ -12,15 +12,23 @@ import java.util.Date
 case class Person(email: String, in: Boolean = false, when: Date = new Date)
 
 
-object Status extends LiftActor {
+object Status extends LiftActor with ListenerManager {
 
  
-  var people: List[Person] = Person("richard@dallaway.com") :: Person("tom") :: Nil
+  var people: List[Person] = Person("richard@dallaway.com") :: Person("Tom") :: Nil
  
-  override def messageHandler = {
+  // What to send to LiveBoard when that is created
+  def createUpdate = people 
+  
+  
+  override def lowPriority = {
     case p: Person =>
       people = p :: people.filterNot(_.email == p.email) 
-    }
+      updateListeners()
+      
+    case x => println("Status Unexpected msg "+x)  
+  }
+  	
   
   
    
