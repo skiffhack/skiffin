@@ -7,6 +7,8 @@ import net.liftweb.common._
 import net.liftweb.json.JsonAST._
 import net.liftweb.json.JsonDSL._
 
+import java.util.Date
+
 object API extends RestHelper with Loggable {
 
   def jsonPerson(p: Person): JObject = ("email" -> p.email) ~
@@ -24,13 +26,8 @@ object API extends RestHelper with Loggable {
      	  
     case req @ Req("api" :: "v1" :: email :: Nil, suffix, PostRequest) =>
       val address = "%s.%s" format (email,suffix)
-      println(req.json)
-      update(address, req.json).map(jsonPerson)
-  
-    case req @ Req("api" :: "v1" :: email :: Nil, suffix, PutRequest) =>
-      val address = "%s.%s" format (email,suffix)
-      insert(address, req.json).map(jsonPerson)
-    
+      setStatus(address, req.json).map(jsonPerson)
+     
       
     case "api" :: "v1" :: "login" :: assertion :: Nil JsonGet _ => 
       val person = for { email <- BrowserId.verify(assertion)
@@ -43,25 +40,22 @@ object API extends RestHelper with Loggable {
       
     
   }
+  
+  def findOrCreate(address: String): Person = 
+    Status.people.find(_.email == address) getOrElse Person(email=address)  
+  
     
-  def update(address: String, jsonreq: Box[JValue]): Option[Person] = for { 
-	  p <- Status.people.find(_.email == address) 
-      json <- jsonreq    
+  // Set the status, returning new person or Empty if missing JSON data
+  def setStatus(address: String, jsonreq: Box[JValue]): Box[Person] = for { 
+	  json <- jsonreq    
       JBool(status) = (json \ "in")
       } yield {
-    	  val np = p.copy(in=status,when=new java.util.Date)
+    	  val np = findOrCreate(address).copy(in=status,when=new Date)
     	  Status ! np
     	  np
-    }  
-      
-  def insert(address: String, jsonreq: Box[JValue]): Option[Person] = for { 
-      json <- jsonreq    
-      JBool(status) = (json \ "in")
-      } yield {
-    	  val np = Person(email=address, in=status, when=new java.util.Date)
-    	  Status ! np
-    	  np
-    }  
+   }
     
+ 
+   
       
 }
